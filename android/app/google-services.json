@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "332896765037",
+    "project_id": "druvtech8",
+    "storage_bucket": "druvtech8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:332896765037:android:2a368888551da4886b6b64",
+        "android_client_info": {
+          "package_name": "com.example.druvtech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "332896765037-50ug4b76nkl534eol6aa3gibnnuupo2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.druvtech",
+            "certificate_hash": "d934e6a108af82f96cf6679db72257a840248379"
+          }
+        },
+        {
+          "client_id": "332896765037-tps14mnd191o50bhclojfrm9hitg138a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAatZPYqM8kOEHcQgRehPXQl4E3h3Cm1EQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "332896765037-tps14mnd191o50bhclojfrm9hitg138a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
