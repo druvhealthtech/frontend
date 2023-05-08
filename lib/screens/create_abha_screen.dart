@@ -1,6 +1,5 @@
 import 'package:druvtech/utils/apis/api_service.dart';
 import 'package:druvtech/screens/abha_otp_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:druvtech/res/custom_colors.dart';
@@ -8,23 +7,17 @@ import 'package:flutter/services.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:govt_documents_validator/govt_documents_validator.dart';
 
-class create_ABHA_from_aadhar extends StatefulWidget {
-  const create_ABHA_from_aadhar({Key? key, required User user})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+class CreateABHA extends StatefulWidget {
+  const CreateABHA({Key? key}) : super(key: key);
 
   @override
-  _create_ABHA_from_aadharState createState() =>
-      _create_ABHA_from_aadharState();
+  _CreateABHAState createState() => _CreateABHAState();
 }
 
-class _create_ABHA_from_aadharState extends State<create_ABHA_from_aadhar> {
-  var _formKey = GlobalKey<FormState>();
+class _CreateABHAState extends State<CreateABHA> {
+  final _formKey = GlobalKey<FormState>();
   late bool isAadharNum;
-  late User _user;
-  AadharValidator aadharValidator = new AadharValidator();
+  AadharValidator aadharValidator = AadharValidator();
 
   String aadhar = '';
   bool isAPICallProcess = false;
@@ -49,7 +42,6 @@ class _create_ABHA_from_aadharState extends State<create_ABHA_from_aadhar> {
             context,
             MaterialPageRoute(
               builder: (context) => AbhaOtpScreen(
-                user: _user,
                 aadhar: aadhar,
                 txnId: response.txnId,
               ),
@@ -62,13 +54,6 @@ class _create_ABHA_from_aadharState extends State<create_ABHA_from_aadhar> {
   }
 
   @override
-  void initState() {
-    _user = widget._user;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Center(
       child: Scaffold(
@@ -76,7 +61,7 @@ class _create_ABHA_from_aadharState extends State<create_ABHA_from_aadhar> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: CustomColors.firebaseNavy,
-          title: AppBarTitle(),
+          title: const AppBarTitle(),
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -88,14 +73,18 @@ class _create_ABHA_from_aadharState extends State<create_ABHA_from_aadhar> {
               children: <Widget>[
                 TextFormField(
                   maxLength: 12,
-                  cursorColor: Colors.green,
+                  cursorColor: Colors.white,
                   decoration: InputDecoration(
-                    labelText: 'Aadhar Number',
+                    labelText: ' Aadhar Number',
+                    // label: const Center(
+                    //   child: Text('Aadhar Number'),
+                    // ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),
-                      borderSide: BorderSide(color: Colors.black),
+                      borderSide: const BorderSide(color: Colors.black),
                     ),
                   ),
+                  textAlign: TextAlign.center,
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   onFieldSubmitted: (value) {},
@@ -104,7 +93,7 @@ class _create_ABHA_from_aadharState extends State<create_ABHA_from_aadhar> {
                       aadhar = value.toString();
                       return null;
                     }
-                    return "Incorrect Aadhar Number";
+                    return " Incorrect Aadhar Number";
                   },
                 ),
                 ElevatedButton(
@@ -115,10 +104,10 @@ class _create_ABHA_from_aadharState extends State<create_ABHA_from_aadhar> {
                       ),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     "Verify and Submit",
                     style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: 18.0,
                     ),
                   ),
                   onPressed: () => _submit(),

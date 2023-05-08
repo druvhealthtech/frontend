@@ -1,31 +1,28 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:druvtech/providers/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:druvtech/res/custom_colors.dart';
-import 'package:druvtech/screens/sign_in_screen.dart';
-import 'package:druvtech/utils/authentication.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import '../screens/login_screen.dart';
 
 class UserInfoScreen extends StatefulWidget {
   final String? healthIdNumber;
-  const UserInfoScreen({Key? key, required User user, this.healthIdNumber})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const UserInfoScreen({Key? key, this.healthIdNumber}) : super(key: key);
 
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
-  late User _user;
   bool _isSigningOut = false;
 
-  Route _routeToSignInScreen() {
+  Route _routeToLoginScreen() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => SignInScreen(),
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const LoginScreen(),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(-1.0, 0.0);
+        var begin = const Offset(-1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
 
@@ -41,21 +38,17 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   }
 
   @override
-  void initState() {
-    _user = widget._user;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    String healthIdNumber = widget.healthIdNumber.toString();
+    var healthIdNumber = widget.healthIdNumber;
+    // final provider = Provider.of<UserSession>(context);
+    final user = context.read<FirebaseAuthMethods>().user;
+
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: CustomColors.firebaseNavy,
-        title: AppBarTitle(),
+        title: const AppBarTitle(),
       ),
       body: SafeArea(
         child: Padding(
@@ -68,12 +61,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(),
-              _user.photoURL != null
+              user.photoURL != null
                   ? ClipOval(
                       child: Material(
                         color: CustomColors.firebaseGrey.withOpacity(0.3),
                         child: Image.network(
-                          _user.photoURL!,
+                          user.photoURL!,
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -91,7 +84,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         ),
                       ),
                     ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text(
                 'Hello',
                 style: TextStyle(
@@ -99,33 +92,33 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   fontSize: 26,
                 ),
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text(
-                _user.displayName!,
+                user.displayName!,
                 style: TextStyle(
                   color: CustomColors.firebaseYellow,
                   fontSize: 26,
                 ),
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text(
-                '( ${_user.email!} )',
+                '( ${user.email} )',
                 style: TextStyle(
                   color: CustomColors.firebaseOrange,
                   fontSize: 20,
                   letterSpacing: 0.5,
                 ),
               ),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
               Text(
-                'Your health ID : ' + healthIdNumber,
-                style: TextStyle(
+                'Your health ID : $healthIdNumber',
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 30,
                   letterSpacing: 0.5,
                 ),
               ),
-              SizedBox(height: 24.0),
+              const SizedBox(height: 24.0),
               Text(
                 'You are now signed in using your Google account. To sign out of your account click the "Sign Out" button below.',
                 style: TextStyle(
@@ -133,9 +126,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     fontSize: 14,
                     letterSpacing: 0.2),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               _isSigningOut
-                  ? CircularProgressIndicator(
+                  ? const CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     )
                   : ElevatedButton(
@@ -153,14 +146,14 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         setState(() {
                           _isSigningOut = true;
                         });
-                        await Authentication.signOut(context: context);
+                        context.read<FirebaseAuthMethods>().signOut(context);
                         setState(() {
                           _isSigningOut = false;
                         });
                         Navigator.of(context)
-                            .pushReplacement(_routeToSignInScreen());
+                            .pushReplacement(_routeToLoginScreen());
                       },
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                         child: Text(
                           'Sign Out',
@@ -173,42 +166,34 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         ),
                       ),
                     ),
-              // SizedBox(height: 16.0),
-              // ElevatedButton(
-              //   style: ButtonStyle(
-              //     backgroundColor: MaterialStateProperty.all(
-              //       Colors.white70,
-              //     ),
-              //     shape: MaterialStateProperty.all(
-              //       RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(20),
-              //       ),
-              //     ),
-              //   ),
-              //   onPressed: () async {
-              //     // Navigator.pop(context);
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => create_ABHA_from_aadhar(
-              //           user: _user,
-              //         ),
-              //       ),
-              //     );
-              //   },
-              //   child: Padding(
-              //     padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-              //     child: Text(
-              //       'Create ABHA id',
-              //       style: TextStyle(
-              //         fontSize: 20,
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.black,
-              //         letterSpacing: 2,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  final snackBar = SnackBar(
+                    content: Center(
+                      child: QrImage(
+                        data:
+                            "Name: ${user.displayName}\nEmail: ${user.email}\nPhone number : ${user.phoneNumber}\nABHA health id: $healthIdNumber",
+                        version: QrVersions.auto,
+                        size: 200.0,
+                      ),
+                    ),
+                    backgroundColor: Colors.white,
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(milliseconds: 10000),
+                    elevation: 50,
+                    width: 300,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: const StadiumBorder(),
+                ),
+                icon: const Icon(Icons.qr_code),
+                label: const Text('Generate'),
+              ),
             ],
           ),
         ),

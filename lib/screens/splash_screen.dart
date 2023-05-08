@@ -1,8 +1,8 @@
-import 'package:druvtech/screens/sign_in_screen.dart';
+import 'package:druvtech/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key});
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -27,17 +27,23 @@ class _SplashScreenState extends State<SplashScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SignInScreen(),
+                builder: (context) => const LoginScreen(),
               ),
             );
+            // Navigator.of(context).push(
+            //   MaterialPageRoute(
+            //     settings: const RouteSettings(name: "/LoginScreen"),
+            //     builder: (context) => const LoginScreen(),
+            //   ),
+            // );
           },
           style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(50),
               ),
               backgroundColor: Colors.white,
-              padding: EdgeInsets.all(50),
-              textStyle: TextStyle(fontSize: 100)),
+              padding: const EdgeInsets.all(50),
+              textStyle: const TextStyle(fontSize: 100)),
           child: const Text(
             "Let's revolutionize health tech !!",
             style: TextStyle(

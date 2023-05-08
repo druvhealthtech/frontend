@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:druvtech/res/custom_colors.dart';
 
 class AppBarTitle extends StatelessWidget {
+  const AppBarTitle({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -12,7 +14,7 @@ class AppBarTitle extends StatelessWidget {
           'assets/druv_logo_round.png',
           height: 20,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Text(
           'Druv',
           style: TextStyle(

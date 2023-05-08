@@ -2,32 +2,20 @@ import 'dart:async';
 import 'package:druvtech/utils/apis/api_service.dart';
 import 'package:druvtech/screens/user_info_screen.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/firebase_auth_methods.dart';
 import '../res/custom_colors.dart';
 
 class ABHAForm extends StatefulWidget {
   final String? txnId;
-  const ABHAForm({Key? key, required User user, this.txnId})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const ABHAForm({Key? key, this.txnId}) : super(key: key);
 
   @override
   _ABHAFormState createState() => _ABHAFormState();
 }
 
 class _ABHAFormState extends State<ABHAForm> {
-  late User _user;
-
-  @override
-  void initState() {
-    _user = widget._user;
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +23,11 @@ class _ABHAFormState extends State<ABHAForm> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: CustomColors.firebaseNavy,
-        title: AppBarTitle(),
+        title: const AppBarTitle(),
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: SignUpForm(user: _user, txnId: widget.txnId),
+        child: SignUpForm(txnId: widget.txnId),
       ),
     );
   }
@@ -48,26 +36,13 @@ class _ABHAFormState extends State<ABHAForm> {
 class SignUpForm extends StatefulWidget {
   final String? txnId;
 
-  const SignUpForm({Key? key, required User user, this.txnId})
-      : _user = user,
-        super(key: key);
-
-  final User _user;
+  const SignUpForm({Key? key, this.txnId}) : super(key: key);
 
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
 class _SignUpFormState extends State<SignUpForm> {
-  late User _user;
-
-  @override
-  void initState() {
-    _user = widget._user;
-
-    super.initState();
-  }
-
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState>();
 
@@ -79,20 +54,19 @@ class _SignUpFormState extends State<SignUpForm> {
   String _password = '';
   String _profilephotourl = '';
 
-  List<DropdownMenuItem<int>> genderList = [];
-
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey we created above
+    final user = context.read<FirebaseAuthMethods>().user;
+
     return Form(
       key: _formKey,
       child: ListView(
-        children: getFormWidget(),
+        children: getFormWidget(user),
       ),
     );
   }
 
-  List<Widget> getFormWidget() {
+  List<Widget> getFormWidget(final user) {
     List<Widget> formWidget = [];
 
     formWidget.add(
@@ -100,12 +74,12 @@ class _SignUpFormState extends State<SignUpForm> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(),
-          _user.photoURL != null
+          user.photoURL != null
               ? ClipOval(
                   child: Material(
                     color: CustomColors.firebaseGrey.withOpacity(0.3),
                     child: Image.network(
-                      _user.photoURL!,
+                      user.photoURL!,
                       fit: BoxFit.fitHeight,
                     ),
                   ),
@@ -123,7 +97,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                 ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
         ],
       ),
     );
@@ -298,7 +272,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
     formWidget.add(
       TextFormField(
-        initialValue: _user.photoURL.toString(),
+        initialValue: user.photoURL.toString(),
         readOnly: true,
         decoration: const InputDecoration(
           labelText: ' Profile Photo URL',
@@ -306,7 +280,7 @@ class _SignUpFormState extends State<SignUpForm> {
         onSaved: (value) {
           setState(
             () {
-              _profilephotourl = _user.photoURL.toString();
+              _profilephotourl = user.photoURL.toString();
             },
           );
         },
@@ -320,11 +294,11 @@ class _SignUpFormState extends State<SignUpForm> {
         _formKey.currentState?.save();
 
         print("\n-------------------------------------------");
-        print("Name " + _firstname + " " + _middlename + " " + _lastname);
-        print("Email " + _email);
-        print("HealthId " + _healthID);
-        print("Password " + _password);
-        print("Profile Photo URL " + _profilephotourl);
+        print("Name $_firstname $_middlename $_lastname");
+        print("Email $_email");
+        print("HealthId $_healthID");
+        print("Password $_password");
+        print("Profile Photo URL $_profilephotourl");
         print("-------------------------------------------\n");
 
         print("\n-------------------------------------------");
@@ -337,31 +311,31 @@ class _SignUpFormState extends State<SignUpForm> {
           _password,
           _profilephotourl,
           widget.txnId.toString(),
-        )..then(
-            (response) async {
-              healthID = response.healthIdNumber.toString();
-              print('\n-----------------------------------------');
-              print("Your health ID -> " + response.healthIdNumber.toString());
-              print('-----------------------------------------\n');
-            },
-          );
+        ).then(
+          (response) async {
+            healthID = response.healthIdNumber.toString();
+            print('\n-----------------------------------------');
+            print("Your health ID -> ${response.healthIdNumber}");
+            print('-----------------------------------------\n');
+          },
+        );
         print("-------------------------------------------\n");
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Form Submitted'),
+            behavior: SnackBarBehavior.floating,
           ),
         );
 
         Timer(
-          Duration(seconds: 2),
+          const Duration(seconds: 2),
           () {
             Navigator.pop(context);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => UserInfoScreen(
-                  user: _user,
                   healthIdNumber: healthID,
                 ),
               ),
@@ -372,15 +346,15 @@ class _SignUpFormState extends State<SignUpForm> {
     }
 
     formWidget.add(
-      SizedBox(
+      const SizedBox(
         height: 30,
       ),
     );
 
     formWidget.add(
       ElevatedButton(
-        child: const Text('Sign Up'),
         onPressed: onPressedSubmit,
+        child: const Text(' Submit '),
       ),
     );
 
