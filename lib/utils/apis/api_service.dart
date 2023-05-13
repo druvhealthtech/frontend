@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../../models/patient_details_response_model.dart';
+import '../../res/variables.dart';
 import 'config.dart';
 import 'package:druvtech/models/otp_login_response_model.dart';
 
@@ -209,5 +211,97 @@ class APIService {
 
     return otpLoginResponseJSON(response.body);
     // return OtpLoginResponseModel.fromJson(json.decode(response.body));
+  }
+
+  static Future<PatientDetailsResponseModel> patientDetails(
+    String firstName,
+    String middleName,
+    String lastName,
+    String gender,
+    String dob,
+    double height,
+    double weight,
+    String bloodGroup,
+    // String token,
+  ) async {
+    if (bloodGroup == 'ap') bloodGroup = 'A+';
+    if (bloodGroup == 'an') bloodGroup = 'A-';
+    if (bloodGroup == 'bp') bloodGroup = 'B+';
+    if (bloodGroup == 'bn') bloodGroup = 'B-';
+    if (bloodGroup == 'op') bloodGroup = 'O+';
+    if (bloodGroup == 'on') bloodGroup = 'O-';
+    if (bloodGroup == 'abp') bloodGroup = 'AB+';
+    if (bloodGroup == 'abn') bloodGroup = 'AB-';
+
+    print("\n----------------------------------");
+    print(firstName);
+    print(middleName);
+    print(lastName);
+    print(gender);
+    print(dob);
+    print(height);
+    print(weight);
+    print(bloodGroup);
+    print(token);
+    print("----------------------------------\n");
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    var url = Uri.http(Config.apiURL, Config.patientDetails);
+
+    var response = await client.put(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(
+        {
+          "firstName": firstName,
+          "middleName": middleName,
+          "lastName": lastName,
+          "dateOfBirth": dob,
+          "gender": gender,
+          "aadhaarNumber": "",
+          "height": height,
+          "weight": weight,
+          "bloodGroup": bloodGroup,
+        },
+      ),
+    );
+
+    print(response.body);
+
+    // return patientDetailsResponseModel(response.body);
+    return PatientDetailsResponseModel.fromJson(json.decode(response.body));
+  }
+
+  static Future<PatientDetailsResponseModel> patientLoginDetails(
+    String emailId,
+  ) async {
+    print("\n----------------------------------");
+    print(emailId);
+    print("----------------------------------\n");
+    Map<String, String> requestHeaders = {'Content-type': 'application/json'};
+
+    var url = Uri.http(Config.apiURL, Config.patientLoginDetails);
+
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(
+        {
+          "gmailId": emailId,
+          "loginMethods": ["gmailId"],
+          "userType": "patient",
+        },
+      ),
+    );
+
+    // print('\n----------------------------------\n');
+    // print(response.body);
+    // print('\n----------------------------------\n');
+
+    // return patientDetailsResponseModel(response.body);
+    return PatientDetailsResponseModel.fromJson(json.decode(response.body));
   }
 }

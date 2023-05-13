@@ -1,7 +1,8 @@
 import 'package:druvtech/providers/firebase_auth_methods.dart';
-import 'package:druvtech/screens/create_abha_screen.dart';
+import 'package:druvtech/res/variables.dart';
 import 'package:druvtech/screens/form_screen.dart';
 import 'package:druvtech/screens/login_email_password_screen.dart';
+import 'package:druvtech/screens/login_screen.dart';
 import 'package:druvtech/screens/phone_screen.dart';
 import 'package:druvtech/screens/signup_email_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:druvtech/firebase_options.dart';
 import 'package:provider/provider.dart';
+
+import 'utils/apis/api_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,9 +65,33 @@ class AuthWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User?>();
 
     if (firebaseUser != null) {
-      return const CreateABHA();
+      // String? token = '';
+
+      APIService.patientLoginDetails(
+        firebaseUser.email.toString(),
+      ).then(
+        (response) async {
+          token = response.token;
+          // print(token);
+          // if (response.token != null) {
+          // print(response.token);
+          // print(token);
+          // return const FormScreen(token: response.token!);
+          // Navigator.pop(context);
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => const FormScreen(token: response.token)),
+          // );
+          // } else {
+          // Navigator.pop(context);
+          // Navigator.of(context).pushReplacement(_routeToMobileLinked());
+          // }
+        },
+      );
+
+      return const FormScreen();
     }
 
-    return const FormScreen();
+    return const LoginScreen();
   }
 }

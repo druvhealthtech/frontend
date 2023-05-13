@@ -1,17 +1,25 @@
+import 'package:druvtech/screens/user_info_screen.dart';
+import 'package:druvtech/utils/apis/api_service.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import '../res/custom_colors.dart';
+import '../res/variables.dart';
 
 class FormScreen extends StatefulWidget {
+  // final String? token;
+
   const FormScreen({Key? key}) : super(key: key);
 
   @override
   _FormScreenState createState() => _FormScreenState();
 }
 
-enum Gender { M, F }
+enum Gender { male, female }
+
+enum BloodGroup { ap, an, bp, bn, op, on, abp, abn }
 
 enum DiabetesType { one, two }
 
@@ -20,14 +28,18 @@ enum FitnessLevel { low, medium, high }
 class _FormScreenState extends State<FormScreen> {
   int currentStep = 0;
   bool isCompleted = false;
-  Gender? _gender = Gender.M;
+  Gender? _gender = Gender.male;
   DiabetesType? _diabetesType = DiabetesType.one;
   FitnessLevel? _fitnessLevel = FitnessLevel.low;
+  BloodGroup? _bloodGroup = BloodGroup.op;
   final double _age = 21;
   double _height = 120;
   double _weight = 60;
+  bool tncAccepted = false;
+  bool isAPICallProcess = true;
 
   final firstName = TextEditingController();
+  final middleName = TextEditingController();
   final lastName = TextEditingController();
   final gender = TextEditingController();
   final dob = TextEditingController();
@@ -71,9 +83,51 @@ class _FormScreenState extends State<FormScreen> {
             onStepContinue: () {
               final isLastStep = (currentStep == getSteps().length - 1);
               if (isLastStep) {
-                setState(() => isCompleted = true);
-                print('Form Completed!');
+                setState(() => tncAccepted == true
+                    ? isCompleted = true
+                    : isCompleted = false);
+                print(
+                    '\n--------------------------------------------\n\tForm Completed!\n--------------------------------------------\n');
+                print(
+                    '\nFirst Name: ${firstName.text}\nMiddle Name: ${middleName.text}\nLast Name: ${lastName.text}\nGender: ${_gender.toString().split('.').last}\nDoB: ${dob.text}\nHeight(cm): $_height\nWeight(kg): $_weight\nBlood Group: ${_bloodGroup.toString().split('.').last}\nDiabetes Type: ${_diabetesType.toString().split('.').last}\nTherapy: Insuline=$insulin, Pills=$pills\nBlood Sugar Goal: SBML=${sugarBeforeMealLow.text}, SBMH=${sugarBeforeMealHigh.text}, SAML=${sugarAfterMealLow.text}, SAMH=${sugarAfterMealHigh.text}\nFitness Level: ${_fitnessLevel.toString().split('.').last}\nTnC Accepted: $tncAccepted\nToken: $token');
+
                 // Add API call here !!
+                setState(() {
+                  isAPICallProcess = true;
+                });
+                APIService.patientDetails(
+                  firstName.text.toString(),
+                  middleName.text.toString(),
+                  lastName.text.toString(),
+                  _gender.toString().split('.').last,
+                  dob.text.toString(),
+                  _height,
+                  _weight,
+                  _bloodGroup.toString().split('.').last,
+                  // widget.token.toString(),
+                ).then(
+                  (response) async {
+                    setState(() {
+                      isAPICallProcess = false;
+                    });
+
+                    if (response.token != null) {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserInfoScreen()),
+                      );
+                    } else {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UserInfoScreen()),
+                      );
+                    }
+                  },
+                );
               } else {
                 setState(() => currentStep += 1);
               }
@@ -125,6 +179,10 @@ class _FormScreenState extends State<FormScreen> {
                 decoration: const InputDecoration(labelText: 'First Name'),
               ),
               TextFormField(
+                controller: middleName,
+                decoration: const InputDecoration(labelText: 'Middle Name'),
+              ),
+              TextFormField(
                 controller: lastName,
                 decoration: const InputDecoration(labelText: 'Last Name'),
               ),
@@ -140,7 +198,7 @@ class _FormScreenState extends State<FormScreen> {
               ListTile(
                 title: const Text('Male'),
                 leading: Radio<Gender>(
-                  value: Gender.M,
+                  value: Gender.male,
                   groupValue: _gender,
                   onChanged: (Gender? value) {
                     setState(() {
@@ -152,7 +210,7 @@ class _FormScreenState extends State<FormScreen> {
               ListTile(
                 title: const Text('Female'),
                 leading: Radio<Gender>(
-                  value: Gender.F,
+                  value: Gender.female,
                   groupValue: _gender,
                   onChanged: (Gender? value) {
                     setState(() {
@@ -227,6 +285,111 @@ class _FormScreenState extends State<FormScreen> {
         Step(
           state: currentStep > 5 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 5,
+          title: const Text("Blood Group"),
+          content: Column(
+            children: <Widget>[
+              ListTile(
+                title: const Text('A+'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.ap,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('A-'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.an,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('B+'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.bp,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('B-'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.bn,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('O+'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.op,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('O-'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.on,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('AB+'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.abp,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('AB-'),
+                leading: Radio<BloodGroup>(
+                  value: BloodGroup.abn,
+                  groupValue: _bloodGroup,
+                  onChanged: (BloodGroup? value) {
+                    setState(() {
+                      _bloodGroup = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        Step(
+          state: currentStep > 6 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 6,
           title: const Text("Diabetes Type"),
           content: Column(
             children: <Widget>[
@@ -258,8 +421,8 @@ class _FormScreenState extends State<FormScreen> {
           ),
         ),
         Step(
-          state: currentStep > 6 ? StepState.complete : StepState.indexed,
-          isActive: currentStep >= 6,
+          state: currentStep > 7 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 7,
           title: const Text("Therapy"),
           content: Column(
             children: <Widget>[
@@ -307,8 +470,8 @@ class _FormScreenState extends State<FormScreen> {
           ),
         ),
         Step(
-          state: currentStep > 7 ? StepState.complete : StepState.indexed,
-          isActive: currentStep >= 7,
+          state: currentStep > 8 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 8,
           title: const Text("Blood Sugar Goal"),
           // ADD important point: (Please consult your doctor before setting your goals)
           content: Column(
@@ -355,8 +518,8 @@ class _FormScreenState extends State<FormScreen> {
           ),
         ),
         Step(
-          state: currentStep > 8 ? StepState.complete : StepState.indexed,
-          isActive: currentStep >= 8,
+          state: currentStep > 9 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 9,
           title: const Text("Fitness Level"),
           content: Column(
             children: <Widget>[
@@ -402,10 +565,35 @@ class _FormScreenState extends State<FormScreen> {
           ),
         ),
         Step(
-          state: currentStep > 9 ? StepState.complete : StepState.indexed,
-          isActive: currentStep >= 9,
+          state: currentStep > 10 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 10,
           title: const Text("Confirm and Submit"),
-          content: const SizedBox(height: 10),
+          content: Column(
+            children: <Widget>[
+              // SizedBox(height: 10),
+              const Text(
+                'Read TnC',
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Checkbox(
+                      value: tncAccepted,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          tncAccepted = newValue!;
+                        });
+                      },
+                    ),
+                    const Text(
+                      'I have read the terms and conditions and I accept it!',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ];
 }

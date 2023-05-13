@@ -8,4 +8,7 @@ class Config {
   static const String verifyMobileOtpAPI = "/api/abha/verifyMobileOtp";
   static const String createHealthIdWithPreVerifiedAPI =
       "/api/abha/createHealthIdWithPreVerified";
+  static const String patientLoginDetails = "/api/patient";
+  static const String patientDetails = "/api/personalDetails";
+  static const String diabetesDetails = "/api/diabetesDetails";
 }
