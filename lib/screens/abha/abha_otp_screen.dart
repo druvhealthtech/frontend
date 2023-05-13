@@ -1,5 +1,5 @@
 import 'package:druvtech/utils/apis/api_service.dart';
-import 'package:druvtech/screens/check_mobile_number_screen.dart';
+import 'package:druvtech/screens/abha/check_mobile_number_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:druvtech/res/custom_colors.dart';

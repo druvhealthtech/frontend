@@ -21,7 +21,7 @@ enum Gender { male, female }
 
 enum BloodGroup { ap, an, bp, bn, op, on, abp, abn }
 
-enum DiabetesType { one, two }
+enum DiabetesType { one, two, gestational, prediabetes, other }
 
 enum FitnessLevel { low, medium, high }
 
@@ -104,7 +104,39 @@ class _FormScreenState extends State<FormScreen> {
                   _height,
                   _weight,
                   _bloodGroup.toString().split('.').last,
-                  // widget.token.toString(),
+                ).then(
+                  (response) async {
+                    setState(() {
+                      isAPICallProcess = false;
+                    });
+
+                    // if (response.token != null) {
+                    //   Navigator.pop(context);
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const UserInfoScreen()),
+                    //   );
+                    // } else {
+                    //   Navigator.pop(context);
+                    //   Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const UserInfoScreen()),
+                    //   );
+                    // }
+                  },
+                );
+
+                APIService.diabetesDetails(
+                  _diabetesType.toString().split('.').last,
+                  insulin,
+                  pills,
+                  sugarBeforeMealLow.text.toString(),
+                  sugarBeforeMealHigh.text.toString(),
+                  sugarAfterMealLow.text.toString(),
+                  sugarBeforeMealHigh.text.toString(),
+                  _fitnessLevel.toString().split('.').last,
                 ).then(
                   (response) async {
                     setState(() {
@@ -409,6 +441,42 @@ class _FormScreenState extends State<FormScreen> {
                 title: const Text('Type 2'),
                 leading: Radio<DiabetesType>(
                   value: DiabetesType.two,
+                  groupValue: _diabetesType,
+                  onChanged: (DiabetesType? value) {
+                    setState(() {
+                      _diabetesType = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('Gestational'),
+                leading: Radio<DiabetesType>(
+                  value: DiabetesType.gestational,
+                  groupValue: _diabetesType,
+                  onChanged: (DiabetesType? value) {
+                    setState(() {
+                      _diabetesType = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('Prediabetes'),
+                leading: Radio<DiabetesType>(
+                  value: DiabetesType.prediabetes,
+                  groupValue: _diabetesType,
+                  onChanged: (DiabetesType? value) {
+                    setState(() {
+                      _diabetesType = value;
+                    });
+                  },
+                ),
+              ),
+              ListTile(
+                title: const Text('Other'),
+                leading: Radio<DiabetesType>(
+                  value: DiabetesType.other,
                   groupValue: _diabetesType,
                   onChanged: (DiabetesType? value) {
                     setState(() {

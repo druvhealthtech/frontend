@@ -4,8 +4,8 @@ import 'package:druvtech/screens/user_info_screen.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/firebase_auth_methods.dart';
-import '../res/custom_colors.dart';
+import '../../providers/firebase_auth_methods.dart';
+import '../../res/custom_colors.dart';
 
 class ABHAForm extends StatefulWidget {
   final String? txnId;

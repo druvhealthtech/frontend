@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:druvtech/res/custom_colors.dart';
 import 'package:flutter/services.dart';
-import 'package:druvtech/screens/mobile_otp_verify.dart';
+import 'package:druvtech/screens/abha/mobile_otp_verify.dart';
 import 'abha_form_screen.dart';
 
 class MobileLinkedScreen extends StatefulWidget {

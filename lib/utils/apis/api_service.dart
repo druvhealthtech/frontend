@@ -222,7 +222,6 @@ class APIService {
     double height,
     double weight,
     String bloodGroup,
-    // String token,
   ) async {
     if (bloodGroup == 'ap') bloodGroup = 'A+';
     if (bloodGroup == 'an') bloodGroup = 'A-';
@@ -269,9 +268,6 @@ class APIService {
       ),
     );
 
-    print(response.body);
-
-    // return patientDetailsResponseModel(response.body);
     return PatientDetailsResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -297,9 +293,78 @@ class APIService {
       ),
     );
 
-    // print('\n----------------------------------\n');
-    // print(response.body);
-    // print('\n----------------------------------\n');
+    return PatientDetailsResponseModel.fromJson(json.decode(response.body));
+  }
+
+  static Future<PatientDetailsResponseModel> diabetesDetails(
+    String type,
+    bool insulin,
+    bool pills,
+    String sugarBeforeMealLow,
+    String sugarBeforeMealHigh,
+    String sugarAfterMealLow,
+    String sugarAfterMealHigh,
+    String fitnessLevel,
+  ) async {
+    print("\n----------------------------------");
+    print(type);
+    print('insulin $insulin');
+    print('pills $pills');
+    print(sugarBeforeMealLow);
+    print(sugarBeforeMealHigh);
+    print(sugarAfterMealLow);
+    print(sugarAfterMealHigh);
+    print(fitnessLevel);
+    print(token);
+    print("----------------------------------\n");
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    var therapyType = List.empty();
+    if (insulin && pills) {
+      therapyType = ['insulin', 'pills'];
+    } else if (insulin) {
+      therapyType = ['insulin'];
+    } else if (pills) {
+      therapyType = ['pills'];
+    } else {
+      therapyType = [];
+    }
+
+    if (type == 'one') type = 'Type 1';
+    if (type == 'two') type = 'Type 2';
+    if (type == 'gestational') type = 'Gestational';
+    if (type == 'prediabetes') type = 'Prediabetes';
+    if (type == 'other') type = 'Other';
+
+    var url = Uri.http(Config.apiURL, Config.diabetesDetails);
+
+    var response = await client.put(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(
+        {
+          "type": type,
+          "therapyType": therapyType,
+          "measurementType": "mg/dl",
+          "targetGlucose": {
+            "beforeMeal": {
+              "lowest": sugarBeforeMealLow,
+              "highest": sugarBeforeMealHigh
+            },
+            "afterMeal": {
+              "lowest": sugarAfterMealLow,
+              "highest": sugarAfterMealHigh
+            }
+          },
+          "fitnessLevel": fitnessLevel,
+        },
+      ),
+    );
+
+    print(response.body);
 
     // return patientDetailsResponseModel(response.body);
     return PatientDetailsResponseModel.fromJson(json.decode(response.body));
