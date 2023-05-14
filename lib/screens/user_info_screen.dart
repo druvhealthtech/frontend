@@ -1,7 +1,6 @@
 import 'package:druvtech/providers/firebase_auth_methods.dart';
 import 'package:flutter/material.dart';
 import 'package:druvtech/res/custom_colors.dart';
-import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../screens/login_screen.dart';
@@ -45,11 +44,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
     return Scaffold(
       backgroundColor: CustomColors.firebaseNavy,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-        title: const AppBarTitle(),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: CustomColors.firebaseNavy,
+      //   title: const AppBarTitle(),
+      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(

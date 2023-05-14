@@ -44,6 +44,7 @@ dependencies:
   sms_autofill: ^2.3.0
   snippet_coder_utils: ^1.0.13
   qr_flutter: ^4.0.0
+  flutter_floating_bottom_bar: ^1.1.0
 
 dev_dependencies:
   flutter_test:
