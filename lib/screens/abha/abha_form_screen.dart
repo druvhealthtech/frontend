@@ -1,11 +1,11 @@
 import 'dart:async';
+import 'package:druvtech/screens/home_screen.dart';
 import 'package:druvtech/utils/apis/api_service.dart';
-import 'package:druvtech/screens/user_info_screen.dart';
-import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/firebase_auth_methods.dart';
 import '../../res/custom_colors.dart';
+import '../../widgets/app_bar_title.dart';
 
 class ABHAForm extends StatefulWidget {
   final String? txnId;
@@ -335,9 +335,9 @@ class _SignUpFormState extends State<SignUpForm> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => UserInfoScreen(
-                  healthIdNumber: healthID,
-                ),
+                builder: (context) => const HomeScreen(
+                    // healthIdNumber: healthID,
+                    ),
               ),
             );
           },

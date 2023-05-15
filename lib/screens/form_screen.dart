@@ -1,4 +1,4 @@
-import 'package:druvtech/screens/user_info_screen.dart';
+import 'package:druvtech/screens/home_screen.dart';
 import 'package:druvtech/utils/apis/api_service.dart';
 import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:flutter/material.dart';
@@ -148,14 +148,14 @@ class _FormScreenState extends State<FormScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const UserInfoScreen()),
+                            builder: (context) => const HomeScreen()),
                       );
                     } else {
                       Navigator.pop(context);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const UserInfoScreen()),
+                            builder: (context) => const HomeScreen()),
                       );
                     }
                   },

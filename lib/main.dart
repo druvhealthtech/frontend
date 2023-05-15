@@ -1,6 +1,8 @@
 import 'package:druvtech/providers/firebase_auth_methods.dart';
 import 'package:druvtech/res/variables.dart';
+import 'package:druvtech/screens/form_screen.dart';
 import 'package:druvtech/screens/login_email_password_screen.dart';
+import 'package:druvtech/screens/login_screen.dart';
 import 'package:druvtech/screens/phone_screen.dart';
 import 'package:druvtech/screens/signup_email_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:druvtech/firebase_options.dart';
 import 'package:provider/provider.dart';
-import 'screens/home_screen.dart';
 import 'utils/apis/api_service.dart';
 
 void main() async {
@@ -87,9 +88,9 @@ class AuthWrapper extends StatelessWidget {
         },
       );
 
-      return const HomeScreen();
+      return const FormScreen();
     }
 
-    return const HomeScreen();
+    return const LoginScreen();
   }
 }

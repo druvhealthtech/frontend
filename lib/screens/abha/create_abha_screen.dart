@@ -1,7 +1,6 @@
 import 'package:druvtech/utils/apis/api_service.dart';
 import '../../screens/abha/abha_otp_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:druvtech/widgets/app_bar_title.dart';
 import 'package:druvtech/res/custom_colors.dart';
 import 'package:flutter/services.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -58,11 +57,11 @@ class _CreateABHAState extends State<CreateABHA> {
     return Center(
       child: Scaffold(
         backgroundColor: CustomColors.firebaseNavy,
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: CustomColors.firebaseNavy,
-          title: const AppBarTitle(),
-        ),
+        // appBar: AppBar(
+        //   elevation: 0,
+        //   backgroundColor: CustomColors.firebaseNavy,
+        //   title: const AppBarTitle(),
+        // ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Form(

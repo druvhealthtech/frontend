@@ -2,9 +2,10 @@ import 'package:druvtech/screens/user_info_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
-import '../screens/documents/documents_screen.dart';
 import '../res/custom_colors.dart';
 import '../widgets/app_bar_title.dart';
+import 'abha/create_abha_screen.dart';
+import 'documents/documents_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     currentPage = 0;
-    tabController = TabController(length: 4, vsync: this, initialIndex: 1);
+    tabController = TabController(length: 4, vsync: this);
     tabController.animation?.addListener(
       () {
         final value = tabController.animation!.value.round();
@@ -92,15 +93,10 @@ class _HomeScreenState extends State<HomeScreen>
             physics: const BouncingScrollPhysics(),
             children: const [
               Center(
-                child: Text("It's cloudy here"),
+                child: Text("Be ready to revolutionize health tech!"),
               ),
               DocumentScreen(),
-              Center(
-                child: Text("It's sunny here"),
-              ),
-              // Center(
-              //   child: Text("It's funny here"),
-              // ),
+              CreateABHA(),
               UserInfoScreen(),
             ],
           ),
