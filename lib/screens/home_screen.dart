@@ -2,7 +2,7 @@ import 'package:druvtech/screens/user_info_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
-
+import '../screens/documents/documents_screen.dart';
 import '../res/custom_colors.dart';
 import '../widgets/app_bar_title.dart';
 
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     currentPage = 0;
-    tabController = TabController(length: 4, vsync: this);
+    tabController = TabController(length: 4, vsync: this, initialIndex: 1);
     tabController.animation?.addListener(
       () {
         final value = tabController.animation!.value.round();
@@ -94,9 +94,7 @@ class _HomeScreenState extends State<HomeScreen>
               Center(
                 child: Text("It's cloudy here"),
               ),
-              Center(
-                child: Text("It's rainy here"),
-              ),
+              DocumentScreen(),
               Center(
                 child: Text("It's sunny here"),
               ),
