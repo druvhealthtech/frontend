@@ -1,3 +1,4 @@
 // global variables
 
-String? token = '';
+String? token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDUxMTZhZTE0ODgyMTczMzJhMjI1ZGYiLCJ1c2VyVHlwZSI6InBhdGllbnQiLCJpYXQiOjE2ODQwNzM4MTB9.aTdfDzO_WOCW2hZ3v-fLLE7b-xwK-VoY1DO4M4Lb99k";

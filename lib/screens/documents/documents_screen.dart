@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../res/custom_colors.dart';
-import '../../widgets/app_bar_title.dart';
+import '../../res/variables.dart';
+import '../../widgets/documentList.dart';
+import '../../widgets/documentUpload.dart';
 
 class DocumentScreen extends StatefulWidget {
   const DocumentScreen({super.key});
@@ -11,14 +13,26 @@ class DocumentScreen extends StatefulWidget {
 }
 
 class _DocumentScreen extends State<DocumentScreen> {
+  bool refresh = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.firebaseNavy,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: CustomColors.firebaseNavy,
-        title: const AppBarTitle(),
+      body: Column(
+        children: const [
+          Flexible(child: DocumentList()),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const DocumentUpload()),
+            ).then((value) => setState(() {}));
+          },
+          child: const Icon(Icons.add)),
+      bottomNavigationBar: const Padding(
+        padding: EdgeInsets.only(bottom: 75),
+        child: Text(''),
       ),
     );
   }
