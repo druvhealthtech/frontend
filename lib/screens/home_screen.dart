@@ -91,13 +91,110 @@ class _HomeScreenState extends State<HomeScreen>
             controller: tabController,
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
-            children: const [
-              Center(
-                child: Text("Be ready to revolutionize health tech!"),
+            children:  [
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Handle the onTap event for the first SizedBox
+                            print('First SizedBox tapped');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.blue,
+                            ),
+                            child: const SizedBox(
+                              width: 170.0,
+                              height: 130.0,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Handle the onTap event for the second SizedBox
+                            print('Second SizedBox tapped');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.green,
+                            ),
+                            child: const SizedBox(
+                              width: 170.0,
+                              height: 130.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Handle the onTap event for the third SizedBox
+                            print('Third SizedBox tapped');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.yellow,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center, 
+                              children : [
+                              SizedBox(
+                              width: 170.0,
+                              height: 130.0,
+                              child: Center(
+                                child: Text("Blood Glucose Level",
+                                style: TextStyle(color: Colors.black,
+                                fontSize: 18,
+                                // fontWeight: FontWeight.bold,
+                                fontFamily: 'Comfortaa' )
+                                )
+                              ),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(top:1.0), // Adjust the top padding to reduce spacing
+                                child: Text('Description 1'),
+                            ),
+                            ]
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Handle the onTap event for the fourth SizedBox
+                            print('Fourth SizedBox tapped');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.orange,
+                            ),
+                            child: const SizedBox(
+                              width: 170.0,
+                              height: 130.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              DocumentScreen(),
-              CreateABHA(),
-              UserInfoScreen(),
+              const DocumentScreen(),
+              const CreateABHA(),
+              const UserInfoScreen(),
             ],
           ),
           child: Stack(
