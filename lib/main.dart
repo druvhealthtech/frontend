@@ -92,6 +92,6 @@ class AuthWrapper extends StatelessWidget {
       return const FormScreen();
     }
 
-    return const HomeScreen();
+    return const LoginScreen();
   }
 }

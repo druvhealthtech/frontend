@@ -1,10 +1,12 @@
 import 'package:druvtech/screens/user_info_screen.dart';
+import 'package:druvtech/providers/firebase_auth_methods.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import '../res/custom_colors.dart';
 import '../widgets/app_bar_title.dart';
 import 'abha/create_abha_screen.dart';
+import 'package:provider/provider.dart';
 import 'documents/documents_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -48,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final user = context.read<FirebaseAuthMethods>().user;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: CustomColors.firebaseNavy,
@@ -91,105 +95,261 @@ class _HomeScreenState extends State<HomeScreen>
             controller: tabController,
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
-            children:  [
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Handle the onTap event for the first SizedBox
-                            print('First SizedBox tapped');
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.blue,
-                            ),
-                            child: const SizedBox(
-                              width: 170.0,
-                              height: 130.0,
-                            ),
-                          ),
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  height: MediaQuery.of(context).size.height / 2,
+                  //   width: MediaQuery.of(context).size.width / 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Hey,${user.displayName!}",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Comfortaa",
+                          fontSize: 26,
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            // Handle the onTap event for the second SizedBox
-                            print('Second SizedBox tapped');
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.green,
-                            ),
-                            child: const SizedBox(
-                              width: 170.0,
-                              height: 130.0,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            // Handle the onTap event for the third SizedBox
-                            print('Third SizedBox tapped');
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.yellow,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center, 
-                              children : [
-                              SizedBox(
-                              width: 170.0,
-                              height: 130.0,
-                              child: Center(
-                                child: Text("Blood Glucose Level",
-                                style: TextStyle(color: Colors.black,
-                                fontSize: 18,
-                                // fontWeight: FontWeight.bold,
-                                fontFamily: 'Comfortaa' )
-                                )
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle the onTap event for the first SizedBox
+                              print('First SizedBox tapped');
+                            },
+                            child: Container(
+                              height: 130,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: Colors.green,
+                              ),
+                              child: SizedBox(
+                                width: 170.0,
+                                height: 130.0,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Blood Glucose',
+                                      style: TextStyle(
+                                        fontFamily: 'Comfortaa',
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '120',
+                                          style: TextStyle(
+                                            fontSize: 30.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                            width: 4.0), //adding space
+                                        Text(
+                                          'mg/dl',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                            Padding(
-                                padding: EdgeInsets.only(top:1.0), // Adjust the top padding to reduce spacing
-                                child: Text('Description 1'),
-                            ),
-                            ]
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // Handle the onTap event for the second SizedBox
+                              print('Second SizedBox tapped');
+                            },
+                            child: Container(
+                              height: 130,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: Colors.blue,
+                              ),
+                              child: SizedBox(
+                                width: 170.0,
+                                height: 130.0,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Hba1c',
+                                      style: TextStyle(
+                                        fontFamily: 'Comfortaa',
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '120',
+                                          style: TextStyle(
+                                            fontSize: 30.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                            width: 4.0), //adding space
+                                        Text(
+                                          'mg/dl',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // Handle the onTap event for the fourth SizedBox
-                            print('Fourth SizedBox tapped');
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.orange,
-                            ),
-                            child: const SizedBox(
-                              width: 170.0,
-                              height: 130.0,
+                        ],
+                      ),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Handle the onTap event for the third SizedBox
+                              print('Third SizedBox tapped');
+                            },
+                            child: Container(
+                              height: 130,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: Colors.yellow,
+                              ),
+                              child: SizedBox(
+                                width: 170.0,
+                                height: 130.0,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Blood Pressure',
+                                      style: TextStyle(
+                                        fontFamily: 'Comfortaa',
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '120',
+                                          style: TextStyle(
+                                            fontSize: 30.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                            width: 4.0), //adding space
+                                        Text(
+                                          'mg/dl',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          GestureDetector(
+                            onTap: () {
+                              // Handle the onTap event for the fourth SizedBox
+                              print('Fourth SizedBox tapped');
+                            },
+                            child: Container(
+                              height: 130,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                color: Colors.orange,
+                              ),
+                              child: SizedBox(
+                                width: 170.0,
+                                height: 130.0,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Heart Rate',
+                                      style: TextStyle(
+                                        fontFamily: 'Comfortaa',
+                                        color: Colors.black,
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '120',
+                                          style: TextStyle(
+                                            fontSize: 30.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                            width: 4.0), //adding space
+                                        Text(
+                                          'mg/dl',
+                                          style: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const DocumentScreen(),
