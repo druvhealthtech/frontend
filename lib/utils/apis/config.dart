@@ -1,5 +1,5 @@
 class Config {
-  static const String apiURL = "13.50.249.27:8080";
+  static const String apiURL = "localhost:8080";
   //static const String apiURL = "localhost:8080";
   static const String ocrapiURL = "13.50.249.27:5000";
   static const String otpLoginAPI = "/api/abha/generateOtp";
@@ -15,6 +15,7 @@ class Config {
   static const String diabetesDetails = "/api/diabetesDetails";
   static const String documents = "/api/document/all";
   static const String report = "/api/report/";
+  static const String reportDetails = "/api/report/details";
   static const String uploadDocument = "/api/document";
   static const String bloodPressure = "/api/bloodPressureReading/all";
 }

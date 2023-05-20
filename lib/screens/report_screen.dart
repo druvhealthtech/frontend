@@ -1,3 +1,4 @@
+import 'package:druvtech/screens/reportDetailScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -37,7 +38,7 @@ class _ReportScreenState extends State<ReportScreen> {
     try {
       final response = await http.get(
           Uri.parse(
-              'http://${Config.apiURL}${Config.report}${widget.documentId}'),
+              'http://${Config.apiURL}${Config.report}?documentId=${widget.documentId}'),
           headers: headers);
       print(response.body);
 
@@ -88,6 +89,17 @@ class _ReportScreenState extends State<ReportScreen> {
                     return ListTile(
                       title: Text(key),
                       subtitle: Text('${_reportData![key]}'),
+                      onTap: () {
+                        // Navigate to the ReportScreen and pass the document ID
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReportDetailScreen(
+                              parameter: key,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   }).toList(),
                 ),
