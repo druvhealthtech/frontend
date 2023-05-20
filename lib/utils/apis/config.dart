@@ -18,4 +18,6 @@ class Config {
   static const String reportDetails = "/api/report/details";
   static const String uploadDocument = "/api/document";
   static const String bloodPressure = "/api/bloodPressureReading/all";
+  static const String heartRate = "/api/heartRateReading/all";
+  static const String glucose = "/api/glucoseReading/all";
 }
