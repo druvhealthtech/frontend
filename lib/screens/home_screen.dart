@@ -2,6 +2,7 @@ import 'package:druvtech/screens/user_info_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../res/custom_colors.dart';
 import '../widgets/app_bar_title.dart';
 import 'abha/create_abha_screen.dart';
@@ -19,6 +20,16 @@ class _HomeScreenState extends State<HomeScreen>
   late int currentPage;
   late TabController tabController;
 
+  late String _healthId = "";
+  void checkIfHealthIdCreated() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? healthId = prefs.getString('healthId');
+    // const isFormFilled = false;
+    setState(() => {
+          if (healthId != null) {_healthId = healthId}
+        });
+  }
+
   @override
   void initState() {
     currentPage = 0;
@@ -32,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
       },
     );
     super.initState();
+    checkIfHealthIdCreated();
   }
 
   void changePage(int newPage) {
@@ -91,12 +103,14 @@ class _HomeScreenState extends State<HomeScreen>
             controller: tabController,
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
-            children: const [
+            children: [
               Center(
                 child: Text("Be ready to revolutionize health tech!"),
               ),
               DocumentScreen(),
-              CreateABHA(),
+              _healthId == ""
+                  ? CreateABHA()
+                  : UserInfoScreen(), //FIXME: Change this
               UserInfoScreen(),
             ],
           ),

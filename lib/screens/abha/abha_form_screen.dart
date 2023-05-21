@@ -3,6 +3,7 @@ import 'package:druvtech/screens/home_screen.dart';
 import 'package:druvtech/utils/apis/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/firebase_auth_methods.dart';
 import '../../res/custom_colors.dart';
 import '../../widgets/app_bar_title.dart';
@@ -317,6 +318,8 @@ class _SignUpFormState extends State<SignUpForm> {
             print('\n-----------------------------------------');
             print("Your health ID -> ${response.healthIdNumber}");
             print('-----------------------------------------\n');
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString('healthId', healthID);
           },
         );
         print("-------------------------------------------\n");
