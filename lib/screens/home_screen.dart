@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../res/custom_colors.dart';
 import '../widgets/app_bar_title.dart';
 import 'abha/create_abha_screen.dart';
+import 'abha_health_id_screen.dart';
 import 'documents/documents_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -104,14 +105,16 @@ class _HomeScreenState extends State<HomeScreen>
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
             children: [
-              Center(
+              const Center(
                 child: Text("Be ready to revolutionize health tech!"),
               ),
-              DocumentScreen(),
+              const DocumentScreen(),
               _healthId == ""
-                  ? CreateABHA()
-                  : UserInfoScreen(), //FIXME: Change this
-              UserInfoScreen(),
+                  ? const CreateABHA()
+                  : ABHAHealthIDScreen(
+                      healthID: _healthId,
+                    ),
+              const UserInfoScreen(),
             ],
           ),
           child: Stack(
