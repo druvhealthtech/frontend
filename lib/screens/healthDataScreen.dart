@@ -102,7 +102,7 @@ class _HealthDataScreenState extends State<HealthDataScreen> {
                   child: ListTile(
                     title: const Text('Blood Pressure'),
                     subtitle: Text(
-                      'Systolic: ${healthData.systolic}\nDiastolic: ${healthData.diastolic}',
+                      'Systolic: ${healthData.systolic == 0 ? '-' : healthData.systolic}\nDiastolic: ${healthData.diastolic == 0 ? '-' : healthData.diastolic}',
                     ),
                     onTap: () {
                       // Navigate to the ReportScreen and pass the document ID
@@ -119,7 +119,8 @@ class _HealthDataScreenState extends State<HealthDataScreen> {
                   color: Colors.blueAccent,
                   child: ListTile(
                     title: const Text('Heart Rate'),
-                    subtitle: Text('Rate: ${healthData.heartRate}'),
+                    subtitle: Text(
+                        'Rate: ${healthData.heartRate == 0 ? '-' : healthData.heartRate}'),
                     onTap: () {
                       // Navigate to the ReportScreen and pass the document ID
                       Navigator.push(
@@ -135,7 +136,8 @@ class _HealthDataScreenState extends State<HealthDataScreen> {
                   color: Colors.blueAccent,
                   child: ListTile(
                     title: const Text('Glucose Level'),
-                    subtitle: Text('Value: ${healthData.glucoseValue}'),
+                    subtitle: Text(
+                        'Value: ${healthData.glucoseValue == 0 ? '-' : healthData.glucoseValue}'),
                     onTap: () {
                       // Navigate to the ReportScreen and pass the document ID
                       Navigator.push(
