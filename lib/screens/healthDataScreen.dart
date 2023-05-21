@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:druvtech/widgets/glucoseChart.dart';
 import 'package:druvtech/widgets/heartRateChart.dart';
 import 'package:flutter/material.dart';
@@ -82,9 +84,12 @@ class _HealthDataScreenState extends State<HealthDataScreen> {
   @override
   void initState() {
     super.initState();
-    fetchData().then((data) {
-      setState(() {
-        healthData = data;
+
+    Timer.periodic(const Duration(seconds: 1), (Timer t) {
+      fetchData().then((data) {
+        setState(() {
+          healthData = data;
+        });
       });
     });
   }

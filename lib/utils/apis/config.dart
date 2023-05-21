@@ -21,4 +21,7 @@ class Config {
   static const String bloodPressureLatest = "/api/bloodPressureReading/latest";
   static const String heartRateLatest = "/api/heartRateReading/latest";
   static const String glucoseLatest = "/api/glucoseReading/latest";
+  static const String postGlucose = "/api/glucoseReading";
+  static const String postBloodPressure = "/api/bloodPressureReading";
+  static const String postHeartRate = "/api/heartRateReading";
 }
