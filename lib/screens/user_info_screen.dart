@@ -1,5 +1,4 @@
 import 'package:druvtech/providers/firebase_auth_methods.dart';
-import 'package:druvtech/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:druvtech/res/custom_colors.dart';
 import 'package:provider/provider.dart';

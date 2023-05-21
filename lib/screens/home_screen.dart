@@ -1,12 +1,10 @@
 import 'package:druvtech/screens/user_info_screen.dart';
-import 'package:druvtech/providers/firebase_auth_methods.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import '../res/custom_colors.dart';
 import '../widgets/app_bar_title.dart';
 import 'abha/create_abha_screen.dart';
-import 'package:provider/provider.dart';
 import 'documents/documents_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -50,8 +48,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final user = context.read<FirebaseAuthMethods>().user;
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: CustomColors.firebaseNavy,

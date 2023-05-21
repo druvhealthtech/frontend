@@ -1,7 +1,5 @@
 class Config {
   static const String apiURL = "localhost:8080";
-  //static const String apiURL = "localhost:8080";
-  static const String ocrapiURL = "13.50.249.27:5000";
   static const String otpLoginAPI = "/api/abha/generateOtp";
   static const String otpVerifyAPI = "/api/abha/verifyOtp";
   static const String checkAndGenerateMobileOTPAPI =
