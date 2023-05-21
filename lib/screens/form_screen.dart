@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import '../res/custom_colors.dart';
 import '../res/variables.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FormScreen extends StatefulWidget {
   // final String? token;
@@ -142,7 +143,10 @@ class _FormScreenState extends State<FormScreen> {
                     setState(() {
                       isAPICallProcess = false;
                     });
-
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setBool('isFormFilled', true);
+                    print("came here");
                     if (response.token != null) {
                       Navigator.pop(context);
                       Navigator.push(
