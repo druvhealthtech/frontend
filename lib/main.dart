@@ -1,8 +1,6 @@
 import 'package:druvtech/providers/firebase_auth_methods.dart';
 import 'package:druvtech/res/variables.dart';
-import 'package:druvtech/screens/checkFormFilledScreen.dart';
 import 'package:druvtech/screens/form_screen.dart';
-import 'package:druvtech/screens/home_screen.dart';
 import 'package:druvtech/screens/login_email_password_screen.dart';
 import 'package:druvtech/screens/login_screen.dart';
 import 'package:druvtech/screens/phone_screen.dart';
@@ -90,7 +88,7 @@ class AuthWrapper extends StatelessWidget {
         },
       );
 
-      return const HomeScreen();
+      return const FormScreen();
     }
 
     return const LoginScreen();
