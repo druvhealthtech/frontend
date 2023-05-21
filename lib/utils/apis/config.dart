@@ -1,5 +1,5 @@
 class Config {
-  static const String apiURL = "192.168.1.16:8080";
+  static const String apiURL = "localhost:8080";
   static const String otpLoginAPI = "/api/abha/generateOtp";
   static const String otpVerifyAPI = "/api/abha/verifyOtp";
   static const String checkAndGenerateMobileOTPAPI =
@@ -18,4 +18,7 @@ class Config {
   static const String bloodPressure = "/api/bloodPressureReading/all";
   static const String heartRate = "/api/heartRateReading/all";
   static const String glucose = "/api/glucoseReading/all";
+  static const String bloodPressureLatest = "/api/bloodPressureReading/latest";
+  static const String heartRateLatest = "/api/heartRateReading/latest";
+  static const String glucoseLatest = "/api/glucoseReading/latest";
 }

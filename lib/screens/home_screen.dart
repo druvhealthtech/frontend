@@ -8,6 +8,7 @@ import '../widgets/app_bar_title.dart';
 import 'abha/create_abha_screen.dart';
 import 'abha_health_id_screen.dart';
 import 'documents/documents_screen.dart';
+import 'healthDataScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -105,9 +106,7 @@ class _HomeScreenState extends State<HomeScreen>
             dragStartBehavior: DragStartBehavior.down,
             physics: const BouncingScrollPhysics(),
             children: [
-              const Center(
-                child: Text("Be ready to revolutionize health tech!"),
-              ),
+              const HealthDataScreen(),
               const DocumentScreen(),
               _healthId == ""
                   ? const CreateABHA()
