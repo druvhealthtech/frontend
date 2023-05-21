@@ -6,8 +6,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../screens/login_screen.dart';
 
 class UserInfoScreen extends StatefulWidget {
-  final String? healthIdNumber;
-  const UserInfoScreen({Key? key, this.healthIdNumber}) : super(key: key);
+  const UserInfoScreen({Key? key}) : super(key: key);
 
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
@@ -38,8 +37,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var healthIdNumber = widget.healthIdNumber;
-    // final provider = Provider.of<UserSession>(context);
     final user = context.read<FirebaseAuthMethods>().user;
 
     return Scaffold(
@@ -110,15 +107,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ),
               const SizedBox(height: 24.0),
               Text(
-                'Your health ID : $healthIdNumber',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 24.0),
-              Text(
                 'You are now signed in using your Google account. To sign out of your account click the "Sign Out" button below.',
                 style: TextStyle(
                     color: CustomColors.firebaseGrey.withOpacity(0.8),
@@ -174,7 +162,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     content: Center(
                       child: QrImage(
                         data:
-                            "Name: ${user.displayName}\nEmail: ${user.email}\nPhone number : ${user.phoneNumber}\nABHA health id: $healthIdNumber",
+                            "Name: ${user.displayName}\nEmail: ${user.email}\nPhone number : ${user.phoneNumber}\n",
                         version: QrVersions.auto,
                         size: 200.0,
                       ),

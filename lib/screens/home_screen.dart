@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen>
                     child: Center(
                       child: Icon(
                         Icons.account_circle_sharp,
-                        color: Colors.blue,
+                        color: Colors.lightBlueAccent,
                       ),
                     ),
                   ),

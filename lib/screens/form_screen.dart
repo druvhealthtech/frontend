@@ -65,140 +65,127 @@ class _FormScreenState extends State<FormScreen> {
         backgroundColor: CustomColors.firebaseNavy,
         title: const AppBarTitle(),
       ),
-      body:
-          // isCompleted ? // form submitted widget :
-          SingleChildScrollView(
-        child: Theme(
-          data: ThemeData(
-            canvasColor: CustomColors.firebaseNavy,
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-                  primary: Colors.tealAccent.shade400,
-                  background: Colors.grey.shade600,
-                  secondary: Colors.tealAccent.shade400,
-                ),
-          ),
-          child: Stepper(
-            // type: StepperType.horizontal,
-            steps: getSteps(),
-            currentStep: currentStep,
-            onStepContinue: () {
-              final isLastStep = (currentStep == getSteps().length - 1);
-              if (isLastStep) {
-                setState(() => tncAccepted == true
-                    ? isCompleted = true
-                    : isCompleted = false);
-                print(
-                    '\n--------------------------------------------\n\tForm Completed!\n--------------------------------------------\n');
-                print(
-                    '\nFirst Name: ${firstName.text}\nMiddle Name: ${middleName.text}\nLast Name: ${lastName.text}\nGender: ${_gender.toString().split('.').last}\nDoB: ${dob.text}\nHeight(cm): $_height\nWeight(kg): $_weight\nBlood Group: ${_bloodGroup.toString().split('.').last}\nDiabetes Type: ${_diabetesType.toString().split('.').last}\nTherapy: Insuline=$insulin, Pills=$pills\nBlood Sugar Goal: SBML=${sugarBeforeMealLow.text}, SBMH=${sugarBeforeMealHigh.text}, SAML=${sugarAfterMealLow.text}, SAMH=${sugarAfterMealHigh.text}\nFitness Level: ${_fitnessLevel.toString().split('.').last}\nTnC Accepted: $tncAccepted\nToken: $token');
+      body: ListView(
+        children: [
+          Theme(
+            data: ThemeData(
+              canvasColor: CustomColors.firebaseNavy,
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                    primary: Colors.tealAccent.shade400,
+                    background: Colors.grey.shade600,
+                    secondary: Colors.tealAccent.shade400,
+                  ),
+            ),
+            child: SingleChildScrollView(
+              child: Stepper(
+                // type: StepperType.horizontal,
+                steps: getSteps(),
+                currentStep: currentStep,
+                onStepContinue: () {
+                  final isLastStep = (currentStep == getSteps().length - 1);
+                  if (isLastStep) {
+                    setState(() => tncAccepted == true
+                        ? isCompleted = true
+                        : isCompleted = false);
+                    print(
+                        '\n--------------------------------------------\n\tForm Completed!\n--------------------------------------------\n');
+                    print(
+                        '\nFirst Name: ${firstName.text}\nMiddle Name: ${middleName.text}\nLast Name: ${lastName.text}\nGender: ${_gender.toString().split('.').last}\nDoB: ${dob.text}\nHeight(cm): $_height\nWeight(kg): $_weight\nBlood Group: ${_bloodGroup.toString().split('.').last}\nDiabetes Type: ${_diabetesType.toString().split('.').last}\nTherapy: Insuline=$insulin, Pills=$pills\nBlood Sugar Goal: SBML=${sugarBeforeMealLow.text}, SBMH=${sugarBeforeMealHigh.text}, SAML=${sugarAfterMealLow.text}, SAMH=${sugarAfterMealHigh.text}\nFitness Level: ${_fitnessLevel.toString().split('.').last}\nTnC Accepted: $tncAccepted\nToken: $token');
 
-                // Add API call here !!
-                setState(() {
-                  isAPICallProcess = true;
-                });
-                APIService.patientDetails(
-                  firstName.text.toString(),
-                  middleName.text.toString(),
-                  lastName.text.toString(),
-                  _gender.toString().split('.').last,
-                  dob.text.toString(),
-                  _height,
-                  _weight,
-                  _bloodGroup.toString().split('.').last,
-                ).then(
-                  (response) async {
+                    // Add API call here !!
                     setState(() {
-                      isAPICallProcess = false;
+                      isAPICallProcess = true;
                     });
+                    APIService.patientDetails(
+                      firstName.text.toString(),
+                      middleName.text.toString(),
+                      lastName.text.toString(),
+                      _gender.toString().split('.').last,
+                      dob.text.toString(),
+                      _height,
+                      _weight,
+                      _bloodGroup.toString().split('.').last,
+                    ).then(
+                      (response) async {
+                        setState(() {
+                          isAPICallProcess = false;
+                        });
+                      },
+                    );
 
-                    // if (response.token != null) {
-                    //   Navigator.pop(context);
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const UserInfoScreen()),
-                    //   );
-                    // } else {
-                    //   Navigator.pop(context);
-                    //   Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const UserInfoScreen()),
-                    //   );
-                    // }
-                  },
-                );
-
-                APIService.diabetesDetails(
-                  _diabetesType.toString().split('.').last,
-                  insulin,
-                  pills,
-                  sugarBeforeMealLow.text.toString(),
-                  sugarBeforeMealHigh.text.toString(),
-                  sugarAfterMealLow.text.toString(),
-                  sugarBeforeMealHigh.text.toString(),
-                  _fitnessLevel.toString().split('.').last,
-                ).then(
-                  (response) async {
-                    setState(() {
-                      isAPICallProcess = false;
-                    });
-                    final SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    await prefs.setBool('isFormFilled', true);
-                    print("came here");
-                    if (response.token != null) {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()),
-                      );
-                    } else {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomeScreen()),
-                      );
-                    }
-                  },
-                );
-              } else {
-                setState(() => currentStep += 1);
-              }
-            },
-            onStepCancel: currentStep == 0
-                ? null
-                : () => setState(() => currentStep -= 1),
-            controlsBuilder: (BuildContext context, ControlsDetails details) {
-              return Container(
-                margin: const EdgeInsets.only(top: 50),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: details.onStepContinue,
-                        child: currentStep == getSteps().length - 1
-                            ? const Text('Submit')
-                            : const Text('Next'),
-                        // child: const Text('Next'),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    if (currentStep != 0)
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: details.onStepCancel,
-                          child: const Text('Back'),
+                    APIService.diabetesDetails(
+                      _diabetesType.toString().split('.').last,
+                      insulin,
+                      pills,
+                      sugarBeforeMealLow.text.toString(),
+                      sugarBeforeMealHigh.text.toString(),
+                      sugarAfterMealLow.text.toString(),
+                      sugarBeforeMealHigh.text.toString(),
+                      _fitnessLevel.toString().split('.').last,
+                    ).then(
+                      (response) async {
+                        setState(() {
+                          isAPICallProcess = false;
+                        });
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        await prefs.setBool('isFormFilled', true);
+                        print("came here");
+                        if (response.token != null) {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()),
+                          );
+                        } else {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomeScreen()),
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    setState(() => currentStep += 1);
+                  }
+                },
+                onStepCancel: currentStep == 0
+                    ? null
+                    : () => setState(() => currentStep -= 1),
+                controlsBuilder:
+                    (BuildContext context, ControlsDetails details) {
+                  return Container(
+                    margin: const EdgeInsets.only(top: 50),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: details.onStepContinue,
+                            child: currentStep == getSteps().length - 1
+                                ? const Text('Submit')
+                                : const Text('Next'),
+                            // child: const Text('Next'),
+                          ),
                         ),
-                      ),
-                  ],
-                ),
-              );
-            },
+                        const SizedBox(width: 12),
+                        if (currentStep != 0)
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: details.onStepCancel,
+                              child: const Text('Back'),
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -658,8 +645,10 @@ class _FormScreenState extends State<FormScreen> {
                         });
                       },
                     ),
-                    const Text(
-                      'I have read the terms and conditions and I accept it!',
+                    const Flexible(
+                      child: Text(
+                        'I have read the terms and conditions and I accept it!',
+                      ),
                     ),
                   ],
                 ),

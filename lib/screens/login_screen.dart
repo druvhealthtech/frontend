@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           SizedBox(
                             child: IconButton(
-                              icon: Image.asset("google_logo.png"),
+                              icon: Image.asset("assets/google_logo.png"),
                               iconSize: 40.0,
                               onPressed: () {
                                 context
