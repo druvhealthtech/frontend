@@ -69,13 +69,27 @@ class _HealthDataScreenState extends State<HealthDataScreen> {
       final bloodPressureJson = json.decode(bloodPressureResponse.body);
       final glucoseJson = json.decode(glucoseResponse.body);
       final heartRateJson = json.decode(heartRateResponse.body);
-
-      return HealthData.fromJson({
-        'systolic': bloodPressureJson['bloodPressureReading']['systolic'],
-        'diastolic': bloodPressureJson['bloodPressureReading']['diastolic'],
-        'heartRate': heartRateJson['heartRateReading']['heartRate'],
-        'glucoseValue': glucoseJson['glucoseReading']['glucoseValue'],
-      });
+      int systolic = bloodPressureJson['bloodPressureReading'] != null
+          ? bloodPressureJson['bloodPressureReading']['systolic']
+          : 0;
+      int diastolic = bloodPressureJson['bloodPressureReading'] != null
+          ? bloodPressureJson['bloodPressureReading']['diastolic']
+          : 0;
+      int heartRate = heartRateJson['heartRateReading'] != null
+          ? heartRateJson['heartRateReading']['heartRate']
+          : 0;
+      int glucoseValue = glucoseJson['glucoseReading'] != null
+          ? glucoseJson['glucoseReading']['glucoseValue']
+          : 0;
+      HealthData dd = HealthData(
+          systolic:
+              systolic, //bloodPressureJson['bloodPressureReading']['systolic'],
+          diastolic: diastolic,
+          heartRate:
+              heartRate, //heartRateJson['heartRateReading']['heartRate'],
+          glucoseValue:
+              glucoseValue); //glucoseJson['glucoseReading']['glucoseValue']);
+      return dd;
     } else {
       throw Exception('Failed to fetch health data');
     }
@@ -84,7 +98,11 @@ class _HealthDataScreenState extends State<HealthDataScreen> {
   @override
   void initState() {
     super.initState();
-
+    fetchData().then((data) {
+      setState(() {
+        healthData = data;
+      });
+    });
     Timer.periodic(const Duration(seconds: 1), (Timer t) {
       fetchData().then((data) {
         setState(() {
