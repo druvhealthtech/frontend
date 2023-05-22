@@ -14,7 +14,6 @@ import 'abha_health_id_screen.dart';
 import 'documents/documents_screen.dart';
 import 'healthDataScreen.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -418,14 +417,4 @@ class _HomeScreenState extends State<HomeScreen>
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-}
-
-void showToast(String message) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black87,
-    textColor: Colors.white,
-  );
 }
